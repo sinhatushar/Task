@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.http import  HttpResponse
 import os
 
-from .config import JSON_FILE_URL, LOG_FILE_URL, PARENT_DIR
-from .utilFunctions import DoProcessing
+from .config import JSON_FILE_URL, LOG_FILE_URL, STORAGE_DIR
+from .util_functions import DoProcessing
 
-obj = DoProcessing( JSON_FILE_URL, LOG_FILE_URL, PARENT_DIR )
+obj = DoProcessing( JSON_FILE_URL, LOG_FILE_URL, STORAGE_DIR )
 
 def home( request ):
 	''''''
-	obj = DoProcessing( JSON_FILE_URL, LOG_FILE_URL, PARENT_DIR )
+	obj = DoProcessing( JSON_FILE_URL, LOG_FILE_URL, STORAGE_DIR )
 	return render( request, 'home.html' )
 
 def invokeCreationOfFiles( request ):

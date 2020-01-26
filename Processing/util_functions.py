@@ -1,15 +1,17 @@
 import os
 import json
 
+
 class DoProcessing() :
 
 	#count = 0 
 	def __init__( self, JSON_FILE_URL, LOG_FILE_URL, PARENT_DIR  ) : 
-		'''Constructor for this class'''
+		''' Constructor for this class '''
 
 		self.JSON_FILE_URL = JSON_FILE_URL
 		self.LOG_FILE_URL  = LOG_FILE_URL
 		self.PARENT_DIR    = PARENT_DIR 
+
 
 	def getJsonFileContent( self, url ) :
 		''' Reads the content from filter json and returns it in a dictionary format '''
@@ -107,6 +109,70 @@ class DoProcessing() :
 						file      = open( filePath, 'a' )
 						file.write( infoDict[ 'Message' ] + '\n' )
 						file.close()
+
+
+
+class FindContentForFile() : 
+
+ 	def __init__( self, STORAGE_DIR, folderName, fileName ) :
+ 		''' Constructor for this class '''
+
+ 		self.STORAGE_DIR = STORAGE_DIR
+ 		self.folderName  = folderName
+ 		self.fileName    = fileName
+
+
+ 	def getFileContent( self ) :
+ 		''' Gets the content of a file '''
+
+ 		filePath = self.STORAGE_DIR + '/' + self.folderName + '/' + self.fileName
+ 		
+ 		file 	= open( filePath, "r" )
+ 		message = file.read()
+ 		file.close()
+
+ 		return message 
+
+
+
+class FindContentForAll() : 
+
+	def __init__( self, STORAGE_DIR ) :
+		''' Constructor for this class '''
+
+		self.STORAGE_DIR = STORAGE_DIR
+
+
+	def getContentForAll( self ) :
+		''' Gets the content for all the files and returns a dictionary with all details for the file  '''
+
+		contentDict    = { 'date' : [ ] , 'ipAddress' : [ ] , 'status' : [ ] , 'message' : [ ] }
+
+		folderNameList = os.listdir( self.STORAGE_DIR )
+		
+		for folderName in folderNameList :
+			fileNameList = os.listdir( self.STORAGE_DIR + '/' + folderName ) 
+
+			for fileName in fileNameList :
+				contentDict[ 'date' ].append( folderName ) 
+				
+				ipAddress = fileName[ 0 : fileName.index('_') ]
+				contentDict[ 'ipAddress' ].append( ipAddress )
+				
+				status 	  = fileName[ fileName.index('_') + 1 : -4 ]
+				contentDict[ 'status' ].append( status )
+
+				obj 	  = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
+				message   = obj.getFileContent() 
+				contentDict[ 'message' ].append( message )
+
+		return contentDict
+	  	
+
+
+
+
+
 
 
 
