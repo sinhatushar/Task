@@ -1,0 +1,19 @@
+<table>
+
+<tr>
+	<th> Date </th>
+	<th> Ip Address </th>
+	<th> Status </th>
+	<th> Message </th>
+</tr>
+
+{% for row in rows %}
+	<tr>
+		<td> {{row.date}} </td>
+		<td> {{row.ipAddress}} </td>
+		<td> {{row.status}} </td>
+		<td> {{row.message}} </td>		
+	</tr>	
+{% endfor %}
+
+</table>

@@ -146,27 +146,30 @@ class FindContentForAll() :
 	def getContentForAll( self ) :
 		''' Gets the content for all the files and returns a dictionary with all details for the file  '''
 
-		contentDict    = { 'date' : [ ] , 'ipAddress' : [ ] , 'status' : [ ] , 'message' : [ ] }
+		contentDictList = [ ]
 
-		folderNameList = os.listdir( self.STORAGE_DIR )
+		folderNameList  = os.listdir( self.STORAGE_DIR )
 		
 		for folderName in folderNameList :
 			fileNameList = os.listdir( self.STORAGE_DIR + '/' + folderName ) 
 
 			for fileName in fileNameList :
-				contentDict[ 'date' ].append( folderName ) 
+				contentDict                = {}
+				contentDict[ 'date' ] 	   = folderName
 				
 				ipAddress = fileName[ 0 : fileName.index('_') ]
-				contentDict[ 'ipAddress' ].append( ipAddress )
+				contentDict[ 'ipAddress' ] = ipAddress 
 				
-				status 	  = fileName[ fileName.index('_') + 1 : -4 ]
-				contentDict[ 'status' ].append( status )
+				status 	  				   = fileName[ fileName.index('_') + 1 : -4 ]
+				contentDict[ 'status' ]    = status 
 
-				obj 	  = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
-				message   = obj.getFileContent() 
-				contentDict[ 'message' ].append( message )
+				obj 	  				   = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
+				message   				   = obj.getFileContent() 
+				contentDict[ 'message' ]   = message 
 
-		return contentDict
+				contentDictList.append( contentDict )
+		
+		return contentDictList
 	  	
 
 
