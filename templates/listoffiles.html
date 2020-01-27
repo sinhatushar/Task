@@ -1,19 +1,21 @@
 <table>
 
 <tr>
-	<th> Date </th>
-	<th> Ip Address </th>
-	<th> Status </th>
-	<th> Message </th>
+	<th> Folder Name </th>
+	<th> File Name </th>
+	<th></th>
 </tr>
 
 {% for row in rows %}
 	<tr>
-		<td> {{row.date}} </td>
-		<td> {{row.ipAddress}} </td>
-		<td> {{row.status}} </td>
-		<td> {{row.message}} </td>		
+		<td> {{row.folderName}} </td>
+		<td> {{row.fileName}} </td>
+		<td> 
+			<a href = "http://127.0.0.1:8000/getContentOfFile?Folder+Name={{row.folderName}}&File+Name={{row.fileName}}">
+			Get content </a> 
+		</td>	
 	</tr>	
 {% endfor %}
 
 </table>
+

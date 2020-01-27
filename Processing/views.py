@@ -33,10 +33,10 @@ def getContentOfFile( request ):
 
 def getListOfAllFiles( request ):
 
-	obj              = FindContentForAll( STORAGE_DIR )
-	contentDictList  = obj.getContentForAll()
+	obj               = FindContentForAll( STORAGE_DIR )
+	contentDictList   = obj.getContentForAll()
 
-	context 		 = {}
-	context[ 'rows'] = contentDictList  
+	context 		  = {}
+	context[ 'rows' ] = contentDictList  
 	
 	return render( request, 'listoffiles.html', context )

@@ -154,18 +154,19 @@ class FindContentForAll() :
 			fileNameList = os.listdir( self.STORAGE_DIR + '/' + folderName ) 
 
 			for fileName in fileNameList :
-				contentDict                = {}
-				contentDict[ 'date' ] 	   = folderName
+				contentDict                 = {}
+				contentDict[ 'folderName' ] = folderName
 				
-				ipAddress = fileName[ 0 : fileName.index('_') ]
-				contentDict[ 'ipAddress' ] = ipAddress 
+				ipAddress                   = fileName[ 0 : fileName.index('_') ]
+				#contentDict[ 'ipAddress' ]  = ipAddress 
 				
-				status 	  				   = fileName[ fileName.index('_') + 1 : -4 ]
-				contentDict[ 'status' ]    = status 
-
-				obj 	  				   = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
-				message   				   = obj.getFileContent() 
-				contentDict[ 'message' ]   = message 
+				status 	  				    = fileName[ fileName.index('_') + 1 : -4 ]
+				#contentDict[ 'status' ]     = status 
+				contentDict[ 'fileName' ]   = ipAddress + '_' + status + '.log' 
+				
+				obj 	  				    = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
+				message   				    = obj.getFileContent() 
+				contentDict[ 'message' ]    = message 
 
 				contentDictList.append( contentDict )
 		
