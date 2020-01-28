@@ -4,13 +4,12 @@ import json
 
 class DoProcessing() :
 
-	#count = 0 
-	def __init__( self, JSON_FILE_URL, LOG_FILE_URL, PARENT_DIR  ) : 
+	def __init__( self, JSON_FILE_URL, LOG_FILE_URL, STORAGE_DIR ) : 
 		''' Constructor for this class '''
 
 		self.JSON_FILE_URL = JSON_FILE_URL
 		self.LOG_FILE_URL  = LOG_FILE_URL
-		self.PARENT_DIR    = PARENT_DIR 
+		self.STORAGE_DIR   = STORAGE_DIR 
 
 
 	def getJsonFileContent( self, url ) :
@@ -61,11 +60,24 @@ class DoProcessing() :
 
 	def createDirectoryAndFiles( self ) :
 		''' Does the processing, creates the directory and stores the file with content '''
+		
+		error = False  
 
-		#count = count + 1
-		 
-		jsonFileDict    = self.getJsonFileContent( self.JSON_FILE_URL )
-		logFileLineList = self.getLogFileContent( self.LOG_FILE_URL )
+		try :	
+			jsonFileDict    = self.getJsonFileContent( self.JSON_FILE_URL )			
+		
+		except Exception as e :
+			error = True
+			print (e)	
+			return error
+
+		try :	
+			logFileLineList = self.getLogFileContent( self.LOG_FILE_URL )
+		
+		except Exception as e :
+			error = True
+			print (e)
+			return error 	
 
 		index = 0 
 		dictIpAddress = { }	
@@ -79,6 +91,8 @@ class DoProcessing() :
 				dictIpAddress[ ipAddress ] = [ index ]
 
 			index 	      			   = index + 1 
+
+		finalContentDict = {}
 
 		for dictionary in jsonFileDict[ 'data' ] :
 			ipAddress 	  = dictionary[ 'ipAddress' ]
@@ -94,21 +108,35 @@ class DoProcessing() :
 					date 	      = '' 
 					date 		  = infoDict[ 'month' ] + '-' + infoDict[ 'day' ] + '-' + infoDict[ 'year' ]  
 
-					directoryPath = os.path.join( self.PARENT_DIR, date ) 
+					directoryName = date  
+					fileName      = ipAddress + '_' + infoDict[ 'status' ] + '.log' 
 
-					if os.path.isdir( directoryPath ) == 0 :
-						os.mkdir( directoryPath )
+					pathTuple 	  = ( directoryName, fileName )
 
-					filePath      = os.path.join( directoryPath, ipAddress + '_' + infoDict[ 'status' ] + '.log' )
-
-					if os.path.isfile( filePath ) == 0 :				
-						file 	  = open( filePath, "w+" )
-						file.write( infoDict[ 'Message' ] + '\n' )
-						file.close()
+					if pathTuple in finalContentDict.keys() :
+						finalContentDict[ pathTuple ].append( infoDict[ 'Message' ] + '\n')
 					else :
-						file      = open( filePath, 'a' )
-						file.write( infoDict[ 'Message' ] + '\n' )
-						file.close()
+						finalContentDict[ pathTuple ] = [ infoDict[ 'Message' ] + '\n' ]
+
+		for pathTuple, messageList in finalContentDict.items() :
+			directoryName = pathTuple[ 0 ]
+			fileName      = pathTuple[ 1 ]
+			
+			directoryPath = os.path.join( self.STORAGE_DIR, directoryName )				
+			filePath      = os.path.join( directoryPath, fileName )
+
+			fullContentOfFile = ''
+			for message in messageList :
+				fullContentOfFile += message
+
+			if os.path.isdir( directoryPath ) == 0 :
+				os.mkdir( directoryPath )			
+
+			file 	  = open( filePath, "w+" )
+			file.write( fullContentOfFile )
+			file.close()
+
+		return error 
 
 
 
@@ -127,11 +155,23 @@ class FindContentForFile() :
 
  		filePath = self.STORAGE_DIR + '/' + self.folderName + '/' + self.fileName
  		
- 		file 	= open( filePath, "r" )
- 		message = file.read()
- 		file.close()
+ 		error   = False
+ 		message = '' 
 
- 		return message 
+ 		try : 
+	 		file 	= open( filePath, "r" )
+	 		message = file.read()
+	 		file.close()
+
+ 		except FileNotFoundError as e :
+ 			error = True
+ 			print (e)
+
+ 		except Exception as e :
+ 			error = True
+ 			print (e)
+
+ 		return ( error, message ) 
 
 
 
@@ -144,7 +184,7 @@ class FindContentForAll() :
 
 
 	def getContentForAll( self ) :
-		''' Gets the content for all the files and returns a dictionary with all details for the file  '''
+		''' Gets the content for all the files and returns a dictionary with file name, directory name and message '''
 
 		contentDictList = [ ]
 
@@ -158,10 +198,9 @@ class FindContentForAll() :
 				contentDict[ 'folderName' ] = folderName
 				
 				ipAddress                   = fileName[ 0 : fileName.index('_') ]
-				#contentDict[ 'ipAddress' ]  = ipAddress 
 				
 				status 	  				    = fileName[ fileName.index('_') + 1 : -4 ]
-				#contentDict[ 'status' ]     = status 
+
 				contentDict[ 'fileName' ]   = ipAddress + '_' + status + '.log' 
 				
 				obj 	  				    = FindContentForFile( self.STORAGE_DIR, folderName, fileName )
