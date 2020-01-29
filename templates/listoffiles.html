@@ -1,21 +1,25 @@
-<table>
+{% extends "base.html" %}
+{% block content %}
+	<table>
 
-<tr>
-	<th> <h2> Folder Name </h2> </th>
-	<th> <h2> File Name </h2> </th>
-	<th> <h2> </h2> </th>
-</tr>
-
-{% for row in rows %}
 	<tr>
-		<td> {{row.folderName}} </td>
-		<td> {{row.fileName}} </td>
-		<td> 
-			<a href = "http://127.0.0.1:8000/getContentOfFile?Folder+Name={{row.folderName}}&File+Name={{row.fileName}}">
-			Get content </a> 
-		</td>	
-	</tr>	
-{% endfor %}
+		<th> <h2> Folder Name</h2> </th>
+		<th> <h2> File Name </h2> </th>
+		<th> <h2> </h2> </th>
+	</tr>
 
-</table>
+	{% for row in rows %}
+		<tr>
+			<td> {{row.folderName}} </td>
+			<td> {{row.fileName}} </td>
+			<td> 
+				<a href = "http://127.0.0.1:8000/getContentOfFile?Folder+Name={{row.folderName}}&File+Name={{row.fileName}}">
+				Get content </a> 
+			</td>	
+		</tr>	
+	{% endfor %}
+
+	</table>
+{% endblock content %}
+
 

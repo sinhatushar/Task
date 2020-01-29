@@ -1,5 +1,8 @@
 import os
 import json
+import logging
+
+logging.getLogger().setLevel(logging.INFO)
 
 
 class DoProcessing() :
@@ -53,7 +56,7 @@ class DoProcessing() :
 		for i in range( messageStartIndex, len( splittedLine ) ) :
 			Message += splittedLine[ i ] + ' '		
 		
-		infoDict[ 'Message' ] 	   = Message
+		infoDict[ 'Message' ] 	   = Message 
 
 		return infoDict 
 
@@ -68,7 +71,7 @@ class DoProcessing() :
 		
 		except Exception as e :
 			error = True
-			print (e)	
+			logging.error(e)	
 			return error
 
 		try :	
@@ -76,7 +79,7 @@ class DoProcessing() :
 		
 		except Exception as e :
 			error = True
-			print (e)
+			logging.error(e)
 			return error 	
 
 		index = 0 
@@ -135,6 +138,7 @@ class DoProcessing() :
 			file 	  = open( filePath, "w+" )
 			file.write( fullContentOfFile )
 			file.close()
+			logging.info( "Created file with file name %s at path %s", fileName, directoryPath )
 
 		return error 
 
@@ -165,11 +169,11 @@ class FindContentForFile() :
 
  		except FileNotFoundError as e :
  			error = True
- 			print (e)
+ 			logging.error(e)
 
  		except Exception as e :
  			error = True
- 			print (e)
+ 			logging.error(e)
 
  		return ( error, message ) 
 
@@ -210,7 +214,7 @@ class FindContentForAll() :
 				contentDictList.append( contentDict )
 		
 		return contentDictList
-	  	
+
 
 
 
