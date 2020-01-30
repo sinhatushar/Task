@@ -1,25 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+
 {% extends "base.html" %}
 {% block content %}
-	<table>
+<table>
 
+<tr>
+	<th> <h2> Folder Name</h2> </th>
+	<th> <h2> File Name </h2> </th>
+	<th> <h2> </h2> </th>
+</tr>
+
+{% for row in rows %}
 	<tr>
-		<th> <h2> Folder Name</h2> </th>
-		<th> <h2> File Name </h2> </th>
-		<th> <h2> </h2> </th>
-	</tr>
+		<td> {{row.folderName}} </td>
+		<td> {{row.fileName}} </td>
+		<td> 
+			<a href = "http://127.0.0.1:8000/getContentOfFile?Folder+Name={{row.folderName}}&File+Name={{row.fileName}}">
+			Get File Content </a> 
+		</td>	
+	</tr>	
+{% endfor %}
 
-	{% for row in rows %}
-		<tr>
-			<td> {{row.folderName}} </td>
-			<td> {{row.fileName}} </td>
-			<td> 
-				<a href = "http://127.0.0.1:8000/getContentOfFile?Folder+Name={{row.folderName}}&File+Name={{row.fileName}}">
-				Get content </a> 
-			</td>	
-		</tr>	
-	{% endfor %}
-
-	</table>
+</table>
 {% endblock content %}
 
+</body>
+</html>
 

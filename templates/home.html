@@ -2,24 +2,24 @@
 {% block content %}
 	<h1>Team Change Project</h1>
 	<br/>
-	<h3>1. Click on submit to invoke Directory and File Making Operation</h3>
-
-	<form action = "invokeCreationOfFiles">
+	<h3>-Click on submit to invoke Directory and File creation operation </h3>
+	<form action = "invokeCreationOfFiles" method='post'>
+		{% csrf_token %}
 		<input type = "submit">
 	</form>
 
 	<br/>
 
-	<h3>2. Click on submit to see list of all directories and files </h3>
-	<form action = "getListOfAllFiles">
+	<h3>-Click on submit to see list of all Directories and Files </h3>
+	<form action = "getListOfAllFiles" >
 		<input type = "submit">
 	</form>
 
 	<br/>
 
-	<h3>3. Enter the directory name and file name to get the corresponding message </h3>
+	<h3>-Enter the Directory name and File name to get File content </h3>
 
-	<form action = "getContentOfFile">	
+	<form action = "getContentOfFile" >	
 		Enter Folder Name : <input type="text" name="Folder Name"><br>
 		Enter File Name   : <input type="text" name="File Name"><br>
 		<input type ="submit">
