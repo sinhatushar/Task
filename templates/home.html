@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<ul>
-	<h1>Team Change Project</h1>
-	<br/>
+
+<h1>Team Change Project</h1>
+<ul>	
+	<br>
 	<li><h3>Click on submit to invoke Directory and File creation operation </h3></li>
 	<form action = "invokeCreationOfFiles" method='post'>
 		{% csrf_token %}
 		<input type = "submit">
 	</form>
 
-	<br/>
+	<br>
 
 	<li><h3>Click on submit to see list of all Directories and Files </h3></li>
 	<form action = "getListOfAllFiles" >
 		<input type = "submit">
 	</form>
 
-	<br/>
+	<br>
 
 	<li><h3>Enter the Directory name and File name to get File content </h3></li>
 
@@ -25,5 +26,5 @@
 		Enter File Name   : <input type="text" name="File Name"><br>
 		<input type ="submit">
 	</form>
-</ul>	
+</ul>
 {% endblock content %}

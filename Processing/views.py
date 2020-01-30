@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import  HttpResponse
+from django.http import  HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json 
 import os
 
 from .config import JSON_FILE_URL, LOG_FILE_URL, STORAGE_DIR
 from .util_functions import DoProcessing, FindContentForFile, FindContentForAll
 
-
+@csrf_exempt 
 def home( request ):
 	''' Returns html page for home page '''
 
@@ -13,6 +15,7 @@ def home( request ):
 	return render( request, 'home.html' )
 
 
+@csrf_exempt 
 def invokeCreationOfFiles( request ):
 	''' Returns html page for storing files and invokes the operation of creating files ''' 
 
@@ -20,11 +23,31 @@ def invokeCreationOfFiles( request ):
 	error = obj.createDirectoryAndFiles()
 	
 	if error :
-		return render( request, 'error.html' )
+		return render( request, 'error.html', status = 500 )
 	
-	return render( request, 'invoke.html' )
+	return render( request, 'invoke.html', status = 200 )
 
 
+@csrf_exempt 
+def getListOfAllFiles( request ):
+	''' Returns html page for showing list of all the files present in storage '''
+
+	obj               = FindContentForAll( STORAGE_DIR )
+	contentDictList   = obj.getContentForAll()
+
+	context 		  = {}
+	context[ 'rows' ] = contentDictList
+	
+	if len( contentDictList ) == 0 : 
+		return render( request, 'empty.html', status = 404 )
+	
+	return render( request, 'listoffiles.html', context, status = 200  )
+	
+	'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
+	##return JsonResponse( context )
+
+
+@csrf_exempt 
 def getContentOfFile( request ):
 	''' Returns html page to show the content of a file '''
 
@@ -35,23 +58,12 @@ def getContentOfFile( request ):
 	( error, message ) = obj.getFileContent()
 
 	if error :
-		return render( request, 'wrongname.html' )
+		return render( request, 'wrongname.html', status = 400 )
 
-	message = message.replace( "\n", "<br/>" )	
-	print (message)
-	return render( request, 'message.html', { 'message' : message } )
-
-
-def getListOfAllFiles( request ):
-	''' Returns html page for showing list of all the files present in storage '''
-
-	obj               = FindContentForAll( STORAGE_DIR )
-	contentDictList   = obj.getContentForAll()
-
-	context 		  = {}
-	context[ 'rows' ] = contentDictList  
+	message     = message.replace( "\n", "<br>" )	
+	messageDict = { 'message' : message } 
 	
-	if len( contentDictList ) == 0 : 
-		return render( request, 'empty.html' )
+	return render( request, 'message.html', messageDict, status = 200 ) 
 	
-	return render( request, 'listoffiles.html', context )
+	'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
+	##return JsonResponse( messageDict )
