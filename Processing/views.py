@@ -37,7 +37,8 @@ def getContentOfFile( request ):
 	if error :
 		return render( request, 'wrongname.html' )
 
-	message.replace( '/\n/g', "<br/>" )	
+	message = message.replace( "\n", "<br/>" )	
+	print (message)
 	return render( request, 'message.html', { 'message' : message } )
 
 

@@ -46,6 +46,7 @@ class DoProcessing() :
 		infoDict[ 'year' ]		   = splittedLine[ 0 ]
 		infoDict[ 'month' ]        = splittedLine[ 1 ]
 		infoDict[ 'day' ]		   = splittedLine[ 2 ]
+		infoDict[ 'time' ]		   = splittedLine[ 3 ]	
 		
 		infoDict[ 'status' ] 	   = splittedLine[ splittedLine.index( 'status:' ) + 1 ]	
 		if infoDict[ 'status' ][ -1 ] == ',' :
@@ -117,9 +118,9 @@ class DoProcessing() :
 					pathTuple 	  = ( directoryName, fileName )
 
 					if pathTuple in finalContentDict.keys() :
-						finalContentDict[ pathTuple ].append( infoDict[ 'Message' ] + '\n')
+						finalContentDict[ pathTuple ].append( infoDict[ 'time' ] +' '+ infoDict[ 'Message' ] + '\n' )
 					else :
-						finalContentDict[ pathTuple ] = [ infoDict[ 'Message' ] + '\n' ]
+						finalContentDict[ pathTuple ] = [ infoDict[ 'time' ] +' '+ infoDict[ 'Message' ] + '\n' ]
 
 		for pathTuple, messageList in finalContentDict.items() :
 			directoryName = pathTuple[ 0 ]
