@@ -2,11 +2,11 @@
 
 Requirements : 
 
--Python > 3.6
--Django 3.0.2
--Postman API (to test REST APIs)
--Swagger tool (to display swagger documentation in UI)
--Running internet connection.
+> Python > 3.6
+> Django 3.0.2
+> Postman API (to test REST APIs)
+> Swagger tool (to display swagger documentation in UI)
+> Running internet connection.
 
 Steps :
 
