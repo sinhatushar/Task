@@ -40,7 +40,9 @@ def getListOfAllFiles( request ):
 	
 	if len( contentDictList ) == 0 : 
 		return render( request, 'empty.html', status = 404 )
-	
+		'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
+		##return JsonResponse( context, status = 404 )
+
 	return render( request, 'listoffiles.html', context, status = 200  )
 	
 	'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
@@ -59,6 +61,8 @@ def getContentOfFile( request ):
 
 	if error :
 		return render( request, 'wrongname.html', status = 400 )
+		'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
+		##return JsonResponse( messageDict, status = 400 )
 
 	message     = message.replace( "\n", "<br>" )	
 	messageDict = { 'message' : message } 

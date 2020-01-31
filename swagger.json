@@ -1,0 +1,104 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the API documentation for REST APIs used in team change project.",
+    "version": "1.0.0",
+    "title": "Team Change Project",
+    "contact": {
+      "email": "tushar.sinha@jpmchase.com"
+    }
+  },
+  "host": "127.0.0.1:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "file",
+      "description": "Everything about the files",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://127.0.0.1:8000/"
+      }
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/invokeCreationOfFiles": {
+      "post": {
+        "tags": [
+          "file"
+        ],
+        "summary": "Invokes the operation of creation of directory and files",
+        "description": "Invokes the operation of creation of directory and files",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/getListOfAllFiles": {
+      "get": {
+        "tags": [
+          "file"
+        ],
+        "summary": "Shows list of all files",
+        "description": "Shows list of all files",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "No files available in storage"
+          }
+        }
+      }
+    },
+    "/getContentOfFile": {
+      "get": {
+        "tags": [
+          "file"
+        ],
+        "summary": "Displays the content of a specified file",
+        "description": "Displays the content of a specified file",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Folder Name",
+            "in": "query",
+            "description": "Name of the folder",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "File Name",
+            "in": "query",
+            "description": "Name of the file",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "File Not Found"
+          }
+        }
+      }
+    }
+  }
+}
