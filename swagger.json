@@ -94,8 +94,8 @@
           "200": {
             "description": "Successful operation"
           },
-          "404": {
-            "description": "File Not Found"
+          "400": {
+            "description": "Wrong file or folder name"
           }
         }
       }
