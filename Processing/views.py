@@ -44,7 +44,7 @@ def getListOfAllFiles( request ):
 	return render( request, 'listoffiles.html', context, status = 200  )
 	
 	'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
-	##return JsonResponse( context )
+	##return JsonResponse( context, status = 404 )
 
 
 @csrf_exempt 
@@ -66,4 +66,4 @@ def getContentOfFile( request ):
 	return render( request, 'message.html', messageDict, status = 200 ) 
 	
 	'''To get JSON response on Postman or Swagger, comment out the above line and uncomment the below line.'''
-	##return JsonResponse( messageDict )
+	##return JsonResponse( messageDict, status = 400 )
